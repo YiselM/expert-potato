@@ -1,0 +1,137 @@
+from tkinter import *
+import numpy as np
+import matplotlib
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
+from scipy import signal as sp
+import matplotlib.pyplot as plt
+import time
+
+gui_4 = Tk()
+gui_4.title('EJERCICIO 5')
+gui_4.configure(background='white', padx=10, pady=10)
+gui_4.geometry("900x900")
+
+
+    
+ti_x = -1
+tf_x = 4
+Lx = tf_x - ti_x   # 4-(-1)+1 = 6
+
+ti_h = 1
+tf_h = 7
+Lh = tf_h - ti_h 
+
+t_x = np.arange(ti_x,tf_x,1)
+t_h = np.arange(ti_h,tf_h,1)
+
+x = (4/5)**t_x
+h = (8/9)**t_h
+
+eje_n = np.arange(ti_x-Lh,tf_x+Lh)
+inicio = min(eje_n)
+final = max(eje_n)
+
+zeros = np.zeros([1,Lh])
+    
+x_n = np.concatenate((zeros, x, zeros), axis=None)
+h_n = np.concatenate((zeros, h, np.zeros([1,Lx])), axis=None)
+    
+plt.figure(1)
+plt.clf()
+plt.title('x[n]')
+plt.stem(eje_n,x_n)
+plt.gcf().canvas.draw()
+
+plt.figure(2)
+plt.clf()
+plt.title('h[n]')
+plt.stem(eje_n,h_n)
+plt.gcf().canvas.draw()
+    
+    
+def Mostrar_Grafica():
+    for n in range(0,Lx+Lh-1):
+        x_k = np.concatenate((zeros,x,zeros),axis=None)
+    
+    
+        plt.figure(3)
+        plt.clf()
+        plt.title('x[k]')
+        plt.xlabel('k')
+        plt.stem(eje_n,x_k)
+        plt.gcf().canvas.draw()
+    
+    
+    #''' -----------Gráfica de h[n-k]----------------- '''
+        h_menosk = np.concatenate((np.zeros([1,n+1]), h[::-1], np.zeros([1,Lx+Lh-n-1])),axis=None)
+        plt.figure(4)
+        plt.clf()
+        plt.stem(eje_n,h_menosk)
+        plt.title('h[n-k]')
+        plt.xlabel('k')
+        plt.gcf().canvas.draw()
+    
+    #''' ----------- Gráfica de x[k] h[n-k] ---------- '''
+        plt.figure(5)
+        plt.clf()
+        plt.stem(eje_n,x_k*h_menosk);
+        plt.title('x[k]h[n-k]')
+        plt.xlabel('k')
+        plt.gcf().canvas.draw()
+    
+    #''' --------- Gráfica de la convolución usando Scipy - Convolve---------'''
+        y_conv = sp.convolve(x,h,'full')
+        plt.figure(6)
+        plt.clf()
+        plt.stem(np.arange(ti_x+ti_h,tf_x+tf_h-1),y_conv)
+        plt.gcf().canvas.draw()
+
+#''' --------- Cálculo y gráfica de y[n]---------'''
+        y_n = np.sum(x_k*h_menosk)
+        plt.figure(7)
+        plt.clf()
+        plt.ylim(-0.2,max(y_conv)+0.2)
+        plt.title('y[n]')
+        plt.xlabel('n')
+        plt.stem(np.arange(ti_x+ti_h,tf_x+tf_h), np.concatenate((np.zeros([1,n]), y_n, np.zeros([1,Lx+Lh-1-n])), axis=None))
+        plt.gcf().canvas.draw() 
+
+            
+        
+    
+botn = Button(gui_4, text="Graficar", command=Mostrar_Grafica)
+botn.grid(row=1,column=0,padx=(10, 10), pady=(10, 10))    
+
+    
+fig = plt.figure(figsize=(3,2))
+canv = FigureCanvasTkAgg(fig, master=gui_4)
+canv.get_tk_widget().grid(row=0, column=5, padx=(10, 10), pady=(10, 10))
+
+fig2 = plt.figure(figsize=(3,2))
+canv2 = FigureCanvasTkAgg(fig2, master=gui_4)
+canv2.get_tk_widget().grid(row=0, column=10, padx=(10, 10), pady=(10, 10))
+
+'''Desde aqui'''
+fig3 = plt.figure(figsize=(3,2))
+canv3 = FigureCanvasTkAgg(fig3, master=gui_4)
+canv3.get_tk_widget().grid(row=5, column=5, padx=(10, 10), pady=(10, 10))
+
+fig4 = plt.figure(figsize=(3,2))
+canv4 = FigureCanvasTkAgg(fig4, master=gui_4)
+canv4.get_tk_widget().grid(row=5, column=10, padx=(10, 10), pady=(10, 10))
+
+fig5 = plt.figure(figsize=(3,2))
+canv5 = FigureCanvasTkAgg(fig5, master=gui_4)
+canv5.get_tk_widget().grid(row=10, column=5, padx=(10, 10), pady=(10, 10))
+
+fig6 = plt.figure(figsize=(3,2))
+canv6 = FigureCanvasTkAgg(fig6, master=gui_4)
+canv6.get_tk_widget().grid(row=10, column=10, padx=(10, 10), pady=(10, 10))
+
+fig7 = plt.figure(figsize=(3,2))
+canv7 = FigureCanvasTkAgg(fig7, master=gui_4)
+canv7.get_tk_widget().grid(row=10, column=15, padx=(10, 10), pady=(10, 10))
+
+
+gui_4.mainloop()
