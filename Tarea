@@ -10,9 +10,65 @@ import time
 gui_4 = Tk()
 gui_4.title('EJERCICIO 5')
 gui_4.configure(background='white', padx=10, pady=10)
-gui_4.geometry("900x900")
+gui_4.geometry("700x800")
 
+# Etiqueta Ti
+lab_1 = Label(gui_4, text="Ti")
+lab_1.configure(background = 'white')
+lab_1.grid(row=0, column=0, padx=(10, 10), pady=(10, 10))
 
+# Caja de texto1
+ent1 = Entry(gui_4)
+ent1.configure(background = 'white')
+ent1.grid(row=1, column=0, padx=(10, 10), pady=(10, 10))
+ent1.config(width=5)
+
+# Etiqueta Tf
+lab_2 = Label(gui_4, text="Tf")
+lab_2.configure(background = 'white')
+lab_2.grid(row=0, column=1, padx=(10, 10), pady=(10, 10))
+
+# Caja de texto2
+ent2 = Entry(gui_4)
+ent2.configure(background = 'white')
+ent2.grid(row=1, column=1, padx=(10, 10), pady=(10, 10))
+ent2.config(width=5)
+
+# Etiqueta Ti2
+lab_1 = Label(gui_4, text="Ti")
+lab_1.configure(background = 'white')
+lab_1.grid(row=2, column=0, padx=(10, 10), pady=(10, 10))
+
+# Caja de texto3
+ent1 = Entry(gui_4)
+ent1.configure(background = 'white')
+ent1.grid(row=3, column=0, padx=(10, 10), pady=(10, 10))
+ent1.config(width=5)
+
+# Etiqueta Tf2
+lab_2 = Label(gui_4, text="Tf")
+lab_2.configure(background = 'white')
+lab_2.grid(row=2, column=1, padx=(10, 10), pady=(10, 10))
+
+# Caja de texto4
+ent2 = Entry(gui_4)
+ent2.configure(background = 'white')
+ent2.grid(row=3, column=1, padx=(10, 10), pady=(10, 10))
+ent2.config(width=5)
+
+fun1 = StringVar(gui_4)
+fun1.set('Señal X')
+
+menu = OptionMenu(gui_4, fun1, 'Trigonometrica','Exponencial','Logaritmica','Algebraica')
+menu.grid(row=1, column=4, padx=(10, 10), pady=(10, 10))
+
+fun2 = StringVar(gui_4)
+fun2.set('Señal H')
+
+menu = OptionMenu(gui_4, fun2, 'Trigonometrica','Exponencial','Logaritmica','Algebraica')
+menu.grid(row=3, column=4, padx=(10, 10), pady=(10, 10))
+
+#####
     
 ti_x = -1
 tf_x = 4
@@ -100,7 +156,7 @@ def Mostrar_Grafica():
             
         
     
-botn = Button(gui_4, text="Graficar", command=Mostrar_Grafica)
+botn = Button(gui_4, text="Convolución", command=Mostrar_Grafica)
 botn.grid(row=1,column=0,padx=(10, 10), pady=(10, 10))    
 
     
